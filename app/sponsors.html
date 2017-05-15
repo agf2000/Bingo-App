@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BINGO :: Patrocinadores!</title>
+    <link rel="stylesheet" type="" href="css/sponsors.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="well well-sm">
+            <strong>Patrocinadores:</strong>
+            <div class="btn-group">
+                <a href="#" id="list" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-th-list"></span>Lista</a>
+                <a href="#" id="grid" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-th"></span>Grid</a>
+                <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+                    <span class="glyphicon glyphicon-edit"></span>Cadastro</a>
+            </div>
+        </div>
+        <div id="products" class="row list-group" data-bind="foreach: sponsors">
+            <div class="item  col-xs-4 col-lg-4">
+                <div class="thumbnail">
+                    <img class="group list-group-image" data-bind="attr: { src: image}" alt="" />
+                    <div class="caption">
+                        <h4 class="group inner list-group-item-heading" data-bind="html: title"></h4>
+                        <p class="group inner list-group-item-text" data-bind="html: subtitle"></p>
+                        <p class="group inner list-group-item-text" data-bind="html: '<strong>Números:</strong> ' + numbers"></p>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6 col-sm-6">
+                                <a class="btn btn-primary" href="http://www.jquery2dotnet.com">Editar</a>
+                            </div>
+                            <div class="col-xs-12 col-md-6 col-sm-6">
+                                <a class="btn btn-danger" href="http://www.jquery2dotnet.com">Excluir</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Fechar</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Cadastro
+                    </h4>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="txtBoxTitle">Fantasia:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txtBoxTitle" placeholder="Nome" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="txtBoxSubtitle">Slogan:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txtBoxSubtitle" placeholder="Complemento" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="txtBoxImage">Imagem:</label>
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <input id="txtBoxImage" type="text" class="form-control" placeholder="Buscar por imagem...">
+                                    <span class="input-group-btn">
+                                        <button id="btnOpenDialog" class="btn btn-default" type="button">Go!</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="txtBoxNumbers">Números:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txtBoxNumbers" placeholder="Números separados por vírgula" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button id="btnSave" type="button" class="btn btn-primary">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var eRequire = require;
+    </script>
+    <script src="js/sponsors.js"></script>
+    <!--<script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>-->
+
+</body>
+
+</html>

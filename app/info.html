@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BINGO :: Paróquia Nossa Senhora Aparecida!</title>
+    <script>
+        const electron = require('electron');
+        const ipcRenderer = electron.ipcRenderer;
+    </script>
+</head>
+
+<body style="background: transparent; padding: 10px;">
+    <div style="text-align: center !important; margin-top: 20px; background-color: #fff; border: 3px dashed gray; border-radius: 10px;">
+        <h1>
+            Bingo Basic App
+        </h1>
+        <h4>Modos de uso:</h4>
+        <p>
+            Aperte a tecla "F11" para exibir o aplicativo em tela cheia.<br /> Aperte a tecla "ALT" para ter acesso ao menu
+            do aplicativo.
+        </p>
+        <p>
+            <a href="#" onclick="ipcRenderer.sendSync('closeInfoWindow')">Fechar</a>
+        </p>
+    </div>
+</body>
+
+</html>
