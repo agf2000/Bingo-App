@@ -1,21 +1,22 @@
-var electron = eRequire('electron').remote;
+const electron = eRequire('electron').remote;
 const storage = eRequire('electron-json-storage');
 const ko = eRequire('knockout');
 const fs = eRequire('fs');
 const path = eRequire('path');
+const uuid = eRequire('uuid/v1');
 
 const $ = jQuery = require('jquery');
 const boostrap = require('bootstrap');
 
-var dialog = electron.dialog;
-var app = electron.app;
-var nativeImage = electron.NativeImage;
+const dialog = electron.dialog;
+const app = electron.app;
 
 $(function () {
 
-    var my = {};
+    let my = {};
 
-    my.Sponsor = function (data) {
+    let Sponsor = function (data) {
+        this.id = data.id;
         this.title = data.title;
         this.subtitle = data.subtitle;
         this.image = data.image;
@@ -23,70 +24,121 @@ $(function () {
     };
 
     // The view model is an abstract description of the state of the UI, but without any knowledge of the UI technology (HTML)
-    my.vm = function () {
-        var self = this;
+    let vm = function () {
+        let self = this;
 
+        self.id = ko.observable(),
         self.title = ko.observable(),
-            self.subtitle = ko.observable(),
-            self.image = ko.observable(),
-            self.numbers = ko.observable(),
-            self.sponsors = ko.observableArray([]);
+        self.subtitle = ko.observable(),
+        self.image = ko.observable(),
+        self.numbers = ko.observable(),
+        self.sponsors = ko.observableArray([]),
+
+        self.edit = function (item) {
+            my.id = item.id;
+            my.img = item.image;
+            $('#txtBoxTitle').val(item.title);
+            $('#txtBoxSubtitle').val(item.subtitle);
+            $('#txtBoxImage').val(item.image.replace(/^.*[\\\/]/, ''));
+            $('#txtBoxNumbers').val(item.numbers.toString());
+            $('#myModal').modal('show');
+        },
+
+        self.removeSponsor = function (item) {
+            let inItems = self.sponsors().filter(function (elem) {
+                return elem.id === item.id; // find the item with the same id
+            })[0];
+
+            self.sponsors.remove(inItems);
+        },
+
+        self.remove = function (item) {
+            let wf = confirm('Excluir o patrocinador ' + item.title + '?', 'Deletetar Número');
+            if (wf == true) {
+                if (fs.existsSync(item.image.replace('file://', ''))) {
+                    fs.unlinkSync(item.image.replace('file://', ''));
+                }
+
+                self.sponsors.remove(item);
+
+                storage.set('sponsors', self.sponsors(), function (error) {
+                    if (error) throw error;
+                });
+            }
+        };
 
         return {
+            id: id,
             title: title,
             subtitle: subtitle,
             image: image,
             numbers: numbers,
-            sponsors: sponsors
+            sponsors: sponsors,
+            removeSponsor: removeSponsor
         };
 
     }();
 
-    ko.applyBindings(my.vm);
+    ko.applyBindings(vm);
 
     storage.getMany(['sponsors', 'numbers'], function (error, data) {
         if (error) throw error;
 
-        if (data.sponsors) {
+        if (!$.isEmptyObject(data.sponsors)) {
             $.each(data.sponsors, function (i, item) {
-                var sponsor = {
+                let sponsor = {
+                    id: item.id,
                     title: item.title,
                     subtitle: item.subtitle,
-                    image: 'file://' + app.getPath('userData') + '\\storage\\' + item.image,
+                    image: item.image,
                     numbers: item.numbers
                 }
-                my.vm.sponsors.push(new my.Sponsor(sponsor));
+                vm.sponsors.push(new Sponsor(sponsor));
             });
         }
     });
 
-    $('#list').click(function (event) {
-        event.preventDefault();
-        $('#products .item').addClass('list-group-item');
-    });
-
-    $('#grid').click(function (event) {
-        event.preventDefault();
-        $('#products .item').removeClass('list-group-item');
-        $('#products .item').addClass('grid-group-item');
-    });
-
     $('#btnOpenDialog').click(function (e) {
+        if (e.clientX === 0) {
+            return false;
+        }
         e.preventDefault();
 
         dialog.showOpenDialog({
             properties: ['openFile']
         },
             function (filename) {
-                $('#txtBoxImage').val(filename.toString());
+                if (filename) {
+                    $('#txtBoxImage').val(filename.toString().replace(/^.*[\\\/]/, '')).attr('title', filename.toString());
+                }
             }
         );
     });
 
     $('#myModal').on('shown.bs.modal', function () {
         setTimeout(function () {
-            $('#txtBoxTitle').focus().select();
+            $('#txtBoxTitle').focus();
         }, 200);
+    });
+
+    $('#myModal').on('hidden.bs.modal', function () {
+        my.id = null;
+        my.img = null;
+        $('#txtBoxTitle').val('');
+        $('#txtBoxSubtitle').val('');
+        $('#txtBoxImage').val('');
+        $('#txtBoxNumbers').val('');
+    });
+
+    $('#aRegister').click(function (e) {
+        if (e.clientX === 0) {
+            return false;
+        }
+        e.preventDefault();
+
+        my.id = null;
+        my.img = null;
+        $('#myModal').modal('show');
     });
 
     // storage.getMany(['numbers', 'sponsors'], function (error, data) {
@@ -98,43 +150,86 @@ $(function () {
     // });
 
     $('#btnSave').click(function (e) {
+        if (e.clientX === 0) {
+            return false;
+        }
         e.preventDefault();
 
-        var arrNumbers = $('#txtBoxNumbers').val();
+        let arrNumbers = $('#txtBoxNumbers').val().split(",").map(function (arrNumbers) {
+            return Number(arrNumbers);
+        });
 
-        var sponsor = {
-            title: $('#txtBoxTitle').val(),
-            subtitle: $('#txtBoxSubtitle').val(),
-            image: $('#txtBoxImage').val().replace(/^.*[\\\/]/, ''),
-            numbers: arrNumbers.split(",").map(function (arrNumbers) {
-                return Number(arrNumbers);
-            })
-        }
-
-        var content = fs.readFileSync($('#txtBoxImage').val(), 'base64');
-
-        fs.writeFile(app.getPath('userData') + '\\storage\\' + $('#txtBoxImage').val().replace(/^.*[\\\/]/, ''),
-            content, 'base64',
-            function (err) {
-                console.log(err);
-            });
-
-        if (content.length) {
-            if (fs.existsSync(app.getPath('userData') + '\\storage\\' + $('#txtBoxImage').val().replace(/^.*[\\\/]/, ''))) {
-
-                // storage.set('sponsors', my.vm.sponsors(), function (error) {
-                //     if (error) throw error;
-                // });
-
-                sponsor.image = 'file://' + app.getPath('userData') + '\\storage\\' + $('#txtBoxImage').val().replace(/^.*[\\\/]/, '');
-                my.vm.sponsors.push(new my.Sponsor(sponsor));
-
+        let id = '';
+        if (my.id) {
+            if (my.id.length) {
+                id = my.id;
+            } else {
+                my.id = uuid();
             }
         } else {
-            my.vm.sponsors.push(new my.Sponsor(sponsor));
+            my.id = uuid();
         }
 
-        var teste = '';
+        let sponsor = {
+            id: my.id,
+            title: $('#txtBoxTitle').val(),
+            subtitle: $('#txtBoxSubtitle').val(),
+            image: $('#txtBoxImage').val(),
+            numbers: arrNumbers
+        };
+
+        let originalfile = '';
+        if (my.img) {
+            if (my.img.length) {
+                originalfile = my.img.replace('file://', '').replace(/^.*[\\\/]/, '');
+            }
+        }
+
+        let newFile = (app.getPath('userData') + '\\storage\\' + $('#txtBoxImage').val()).replace(/^.*[\\\/]/, '');
+
+        if (originalfile !== newFile) {
+            let content = fs.readFileSync($('#txtBoxImage').attr('title'), 'base64');
+
+            fs.writeFile(app.getPath('userData') + '\\storage\\' + $('#txtBoxImage').val(),
+                content, 'base64',
+                function (err) {
+                    console.log(err);
+                });
+
+            if (fs.existsSync(app.getPath('userData') + '\\storage\\' + newFile)) {
+                sponsor.image = 'file://' + app.getPath('userData') + '\\storage\\' + newFile;
+                if (originalfile !== '') {
+                    fs.unlinkSync(my.img.replace('file://', ''));
+                }
+            }
+        } else {
+            sponsor.image = 'file://' + app.getPath('userData') + '\\storage\\' + originalfile;
+        }
+
+        if (my.id) {
+            if (my.id.length) {
+                vm.removeSponsor(sponsor);
+            }
+        }
+
+        if (originalfile !== newFile) {
+            window.setTimeout(function () {
+                vm.sponsors.unshift(new Sponsor(sponsor));
+            }, 500);
+        } else {
+            vm.sponsors.unshift(new Sponsor(sponsor));
+        }
+
+        window.setTimeout(function () {
+            storage.set('sponsors', vm.sponsors(), function (error) {
+                if (error) throw error;
+            });
+        }, 3000);
+
+        $('#myModal').modal('hide');
+
+        my.id = null;
+        my.img = null;
     });
 
 }());

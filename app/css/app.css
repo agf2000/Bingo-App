@@ -8324,7 +8324,7 @@ body {
   display: block;
   width: 100%;
   position: absolute;
-  top: 24%;
+  top: 17.9%;
   font-size: 7.0vw;
   text-align: center;
 }
@@ -8333,27 +8333,42 @@ body {
   text-align: center;
   width: 80%;
   position: absolute;
-  bottom: 0;
-  padding-bottom: 20px;
+  bottom: 7%;
+}
+
+#adContainer h1 {
+  font-size: 3.0vw;
+  font-weight: bolder;
+}
+
+#adContainer h3 {
+  font-size: 2.0vw;
+  font-weight: bolder;
 }
 
 #adContainer img {
-  width: 25%;
+  width: 30%;
+}
+
+.sizeControl {
+  min-height: 100px;
 }
 
 h2 {
   margin: 0;
   padding: 15px 20px 0 20px;
   color: #006000;
-  font-size: 38px;
+  font-size: 48px;
   font-weight: bolder;
   text-shadow: 2px 2px #fff;
 }
 
-h2 span {
+#mainContainer h2 a {
   float: right;
-  font-size: 50%;
-  /*padding-right: 20px;*/
+}
+
+#mainContainer h2 span {
+  font-size: 80%;
   margin-top: 20px;
   font-family: cursive;
 }
@@ -8402,6 +8417,20 @@ td:first-child {
 .selectedNumber {
   background-color: #722929;
   color: #FFF;
+}
+
+.text-red {
+  color: red;
+}
+
+.dots {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.dots img {
+  margin: 10px;
 }
 
 /* ending app styles */

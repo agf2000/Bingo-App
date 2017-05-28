@@ -1,17 +1,54 @@
 [{
-        "title": "Softek Automação",
-        "subtitle": "Rua peçanha 627 / Fone: (33) 3271-4427",
-        "image": "ad.png",
-        "numbers": [
-            11, 21, 35
-        ]
-    },
-    {
-        "title": "Softer Automação",
-        "subtitle": "Rua peçanha 627 / Fone: (33) 3271-4427",
-        "image": "ad.png",
-        "numbers": [
-            53, 58, 70
-        ]
-    }
-]
+	"id": "dc174f40-3c43-11e7-b7e8-7d4ac2a04e2e",
+	"title": "EMPRESA NOME A",
+	"subtitle": "SLOGAN DA EMPRESA A",
+	"image": "file://C:\\Users\\Giovanni\\AppData\\Roaming\\Electron\\storage\\58d7c43d89240d3283d1bd4f5807ef58.png",
+	"numbers": [11,
+	29,
+	35]
+},
+{
+	"id": "ff5b5320-3c43-11e7-b7e8-7d4ac2a04e2e",
+	"title": "EMPRESA NOME B",
+	"subtitle": "SLOGAN DA EMPRESA B",
+	"image": "file://C:\\Users\\Giovanni\\AppData\\Roaming\\Electron\\storage\\MAIS_VOCE_2009_2.png",
+	"numbers": [53,
+	58,
+	70]
+},
+{
+	"id": "10e8e2b0-3c44-11e7-b7e8-7d4ac2a04e2e",
+	"title": "EMPRESA NOME C",
+	"subtitle": "SLOGAN DA EMPRESA C",
+	"image": "file://C:\\Users\\Giovanni\\AppData\\Roaming\\Electron\\storage\\logo-800x188.PNG",
+	"numbers": [71,
+	72,
+	73]
+},
+{
+	"id": "10e8e2b0-3c44-11e7-b7e8-7d4ac2a04e22",
+	"title": "EMPRESA NOME D",
+	"subtitle": "SLOGAN DA EMPRESA D",
+	"image": "file://C:\\Users\\Giovanni\\AppData\\Roaming\\Electron\\storage\\levis-Logo.png",
+	"numbers": [21,
+	22,
+	23]
+},
+{
+	"id": "10e8e2b0-3c44-11e7-b7e8-7d4ac2a04e21",
+	"title": "EMPRESA NOME E",
+	"subtitle": "SLOGAN DA EMPRESA E",
+	"image": "file://C:\\Users\\Giovanni\\AppData\\Roaming\\Electron\\storage\\Consul-Brand-Logo.png",
+	"numbers": [31,
+	32,
+	33]
+},
+{
+	"id": "10e8e2b0-3c44-11e7-b7e8-7d4ac2a04e22",
+	"title": "EMPRESA NOME F",
+	"subtitle": "SLOGAN DA EMPRESA F",
+	"image": "file://C:\\Users\\Giovanni\\AppData\\Roaming\\Electron\\storage\\YouTube-logo-dark.png",
+	"numbers": [41,
+	42,
+	43]
+}]
