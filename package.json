@@ -25,13 +25,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/agf2000/bingotron.git"
+    "url": "git+https://github.com/agf2000/bingo-app.git"
   },
   "keywords": [],
   "author": "AGF",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/agf2000/bingotron/issues"
+    "url": "https://github.com/agf2000/bingo-app/issues"
   },
-  "homepage": "https://github.com/agf2000/bingotron#readme"
+  "homepage": "https://github.com/agf2000/bingo-app#readme"
 }
